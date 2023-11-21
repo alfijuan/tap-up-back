@@ -2,8 +2,6 @@ from django.contrib.auth import logout, authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.conf import settings
-from datetime import datetime
 
 from backend.helpers import get_request_body
 
