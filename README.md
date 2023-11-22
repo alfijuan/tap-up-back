@@ -5,10 +5,23 @@ Materia TAP 2023 - Maria Belen Alegre
 ## Tecnologias
 Se utilizo Python combinado con el framework web Django con una base de datos relacion SQLite3 que es portable y cumple el propisto para el ejercicio.
 
+## Instalacion
+Es necesario contar con:
+- python3
+- pip3
+
+Descargar el repositorio y una vez dentro, correr  
+```
+pip3 install -r requirements.txt
+python3 manage.py migrate
+python3 manage.py cretesuperuser
+python3 manage.py runserver
+```
 
 ## Comandos
 Django utiliza un set de comandos mediante el archivo `manage.py` 
 
+- `python3 manage.py runserver` corre el servidor en el puerto 8000
 - `python3 manage.py migrate` corre las migraciones y crea una db en caso de no tenerla
 - `python3 manage.py cretesuperuser` crea un usuario disponible para la app. En caso de querer que sea admin, hay que cambiar el `type_id` del user creado haciendo
 ```
