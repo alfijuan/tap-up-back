@@ -47,3 +47,48 @@ class ApiLoginViewTestCase(TestCase):
             {'message': 'Método no permitido', 'code': 'method_not_allowed'}
         )
 
+    def test_me_success(self):
+        self.client.login(username='test', password='test')
+        response = self.client.post(
+            reverse('api.me'),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.user.profile.to_json()['username'])
+
+    def test_me_patch_success(self):
+        self.client.login(username='test', password='test')
+        newData = {
+            'first_name': 'Juan'
+        }
+        response = self.client.patch(
+            reverse('api.me'),
+            json.dumps(newData),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.user.profile.to_json()['first_name'])
+
+    def test_logout_success(self):
+        self.client.login(username='test', password='test')
+        response = self.client.post(
+            reverse('api.logout'),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(
+            str(response.content, encoding='utf8'),
+            {'message': "Usuario deslogueado"}
+        )
+
+    def test_logout_unauthenticated(self):
+        response = self.client.post(
+            reverse('api.logout'),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertJSONEqual(
+            str(response.content, encoding='utf8'),
+            {'message': "No hay usuario logueado", "code": "no_logged_user"}
+        )
+

@@ -45,6 +45,37 @@ class AppointmentsViewTestCase(TestCase):
             Appointment.objects.last().score,
             ''
         )
+    
+    def test_create_appointment_no_vehicle(self):
+        self.client.login(username='test', password='test')
+        data = {
+            'date': '2023-11-20T03:00:00.000000Z'
+        }
+
+        response = self.client.post(
+            reverse('api.appointments'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+        self.assertJSONEqual(
+            str(response.content, encoding='utf8'),
+            {'message': "La patente es requerida"}
+        )
+
+    def test_create_appointment_unauthenticated(self):
+        response = self.client.post(
+            reverse('api.appointments'),
+            json.dumps({}),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertJSONEqual(
+            str(response.content, encoding='utf8'),
+            {'message': 'No hay usuario logueado'}
+        )
+
 
     def test_list_appointments(self):
         self.client.login(username='test', password='test')

@@ -4,7 +4,6 @@ from backend.views import users, cars, appointments
 urlpatterns = [
   path('login/', users.api_login, name='api.login'),
   path('logout/', users.api_logout, name='api.logout'),
-  path('signup/', users.api_signup, name='api.signup'),
   path('me/', users.api_me, name='api.me'),
 
   path('cars/', cars.cars, name='api.cars'),
